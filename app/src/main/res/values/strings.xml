@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">PunsGame</string>
+    <string name="start">START</string>
+    <string name="set_timer">SET TIMER</string>
+    <string name="puns_game">Puns Game</string>
 </resources>
