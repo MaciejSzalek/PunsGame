@@ -3,4 +3,6 @@
     <string name="start">START</string>
     <string name="set_timer">USTAW CZAS</string>
     <string name="puns_game">Kalambury</string>
+    <string name="game">GRA</string>
+    <string name="random">LOSUJ</string>
 </resources>

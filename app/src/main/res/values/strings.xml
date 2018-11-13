@@ -3,4 +3,6 @@
     <string name="start">START</string>
     <string name="set_timer">SET TIMER</string>
     <string name="puns_game">Puns Game</string>
+    <string name="game">GAME</string>
+    <string name="random">RANDOM</string>
 </resources>
