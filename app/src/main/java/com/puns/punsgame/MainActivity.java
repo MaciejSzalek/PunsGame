@@ -17,8 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     public ImageButton gameButton;
     public ImageButton setTimerButton;
-    public TextView gameButtonText;
-    public TextView setTimerButtonText;
+    public ImageButton editorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         gameButton = findViewById(R.id.game_button);
         setTimerButton = findViewById(R.id.set_timer_button);
-        gameButtonText = findViewById(R.id.game_button_text);
-        setTimerButtonText = findViewById(R.id.set_timer_text);
+        editorButton = findViewById(R.id.editor_button);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.text_color));
@@ -48,10 +46,20 @@ public class MainActivity extends AppCompatActivity {
                 goToGameActivity();
             }
         });
+        editorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToEditorActivity();
+            }
+        });
 
     }
     public void goToGameActivity(){
         Intent intent = new Intent(MainActivity.this, Game.class);
+        startActivity(intent);
+    }
+    public void goToEditorActivity(){
+        Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
     }
 }

@@ -12,4 +12,5 @@
     <string name="finish_game_dialog_message">Czy na prawdę chcesz zakończyć grę ?</string>
     <string name="finish_game_cancel_button">Anuluj</string>
     <string name="finish_game_ok_button">OK</string>
+    <string name="editor">EDYTOR</string>
 </resources>

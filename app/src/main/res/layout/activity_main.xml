@@ -75,6 +75,28 @@
                 android:text="@string/set_timer"/>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8sp">
+
+            <ImageButton
+                android:id="@+id/editor_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/custom_button"
+                android:textColor="#000000"
+                android:background="@color/transparent"/>
+
+            <TextView
+                android:id="@+id/editor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/button_text_color"
+                android:text="@string/editor"/>
+        </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
