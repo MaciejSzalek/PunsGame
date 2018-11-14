@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Kalambury</string>
     <string name="start">START</string>
     <string name="set_timer">USTAW CZAS</string>
     <string name="puns_game">Kalambury</string>
     <string name="game">GRA</string>
     <string name="random">LOSUJ</string>
+    <string name="password">Hasło:</string>
+    <string name="category">Kategoria :</string>
+    <string name="finish_game_dialog_title">Zakończ grę !!!</string>
+    <string name="finish_game_dialog_message">Czy na prawdę chcesz zakończyć grę ?</string>
+    <string name="finish_game_cancel_button">Anuluj</string>
+    <string name="finish_game_ok_button">OK</string>
 </resources>

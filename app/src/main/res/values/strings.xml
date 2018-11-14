@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">PunsGame</string>
+    <string name="app_name">Puns Game</string>
     <string name="start">START</string>
     <string name="set_timer">SET TIMER</string>
     <string name="puns_game">Puns Game</string>
     <string name="game">GAME</string>
     <string name="random">RANDOM</string>
+    <string name="password">password:</string>
+    <string name="category">category :</string>
+    <string name="finish_game_dialog_title">Finish Game !!!</string>
+    <string name="finish_game_dialog_message">Do you really want to finish the game ?</string>
+    <string name="finish_game_cancel_button">Cancel</string>
+    <string name="finish_game_ok_button">OK</string>
 </resources>

@@ -45,6 +45,7 @@
                 android:background="@color/transparent"/>
 
             <TextView
+                android:id="@+id/game_button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -66,6 +67,7 @@
                 android:background="@color/transparent"/>
 
             <TextView
+                android:id="@+id/set_timer_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

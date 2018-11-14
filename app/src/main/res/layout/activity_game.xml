@@ -30,7 +30,7 @@
         android:textColor="@color/text_color"
         android:textSize="32sp"
         android:textAlignment="center"
-        android:text="category:"/>
+        android:text="@string/category"/>
 
     <TextView
         android:id="@+id/password"
@@ -41,7 +41,7 @@
         android:textColor="@color/text_color"
         android:textSize="32sp"
         android:textAlignment="center"
-        android:text="password:"/>
+        android:text="@string/password"/>
 
 
     <RelativeLayout
@@ -72,7 +72,7 @@
         android:id="@+id/button2_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8sp"
+        android:layout_marginBottom="32sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
