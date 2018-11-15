@@ -6,4 +6,5 @@
     <color name="text_color">#FFFF</color>
     <color name="transparent">#00ffffff</color>
     <color name="button_text_color">#000</color>
+    <color name="pun_list_background">#a3a3a3</color>
 </resources>

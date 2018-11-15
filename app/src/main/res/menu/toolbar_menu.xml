@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        app:showAsAction="ifRoom"
+        android:id="@+id/add_pun"
+        android:orderInCategory="100"
+        android:icon="@drawable/plus_ic"
+        android:title="add">
+    </item>
+
+    <item
+        app:showAsAction="ifRoom"
+        android:id="@+id/delete_pun"
+        android:orderInCategory="200"
+        android:icon="@drawable/trash_bin_ic"
+        android:title="delete_pun">
+    </item>
+</menu>
