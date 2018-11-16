@@ -1,6 +1,11 @@
 package com.puns.punsgame;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +23,14 @@ import java.util.List;
 
 public class EditorActivity extends AppCompatActivity {
 
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listCategory;
-    HashMap<String, List<String>> listPun;
+    private ExpandableListAdapter listAdapter;
+    private ExpandableListView expListView;
+    private List<String> listCategory;
+    private HashMap<String, List<String>> listPun;
+
+    public Uri uri;
+    private String path;
+    private final int REAL_PATH_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,7 @@ public class EditorActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         //get list view
         expListView = findViewById(R.id.exp_list);
         //set category and puns
@@ -56,6 +66,7 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.add_pun:
+                getExcelFilePath();
                 Toast.makeText(EditorActivity.this, "add pun", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete_pun:
@@ -63,6 +74,26 @@ public class EditorActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    public void getExcelFilePath(){
+        Intent intent = new Intent();
+        intent.setType("gagt/sdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, REAL_PATH_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == REAL_PATH_REQUEST){
+                uri = data.getData();
+                String testPath = uri.getPath();
+                Toast.makeText(EditorActivity.this, "path:" + testPath,
+                        Toast.LENGTH_SHORT).show();
+
+            }
+
         }
     }
     private void setPunsList(){

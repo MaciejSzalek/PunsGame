@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Maci on 2018-05-15.
+ * Created by Maciej Szalek on 2018-05-15.
  */
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter{
