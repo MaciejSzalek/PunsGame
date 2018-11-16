@@ -16,7 +16,12 @@ import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,8 +93,27 @@ public class EditorActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             if(requestCode == REAL_PATH_REQUEST){
                 uri = data.getData();
-                String testPath = uri.getPath();
-                Toast.makeText(EditorActivity.this, "path:" + testPath,
+                path = uri.getPath();
+
+                try {
+                    FileReader fileReader = new FileReader(path);
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    try {
+                        String csvLine;
+                        while((csvLine = bufferedReader.readLine()) != null){
+                            String[] column = csvLine.split("|");
+                            String category = column[0];
+                            String pun = column[1];
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(EditorActivity.this, "path:" + path,
                         Toast.LENGTH_SHORT).show();
 
             }
