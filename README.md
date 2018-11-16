@@ -6,6 +6,8 @@ Issues developed in project:
 
 - Custom toolbar
 
+- Custom ExpandableListView
+
 - How to support different language verisions
 
 - SQLite data base (add, delete, update, get data)
