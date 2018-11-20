@@ -12,4 +12,6 @@
     <string name="finish_game_cancel_button">Cancel</string>
     <string name="finish_game_ok_button">OK</string>
     <string name="editor">EDITOR</string>
+    <string name="set_timer_in_minutes">Set timer in minutes</string>
+    <string name="game_time">Game time:</string>
 </resources>

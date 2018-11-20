@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     public ImageButton setTimerButton;
     public ImageButton editorButton;
 
+    private Dialogs mDialogs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 goToGameActivity();
             }
         });
+        setTimerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSetGameTimeDialog();
+            }
+        });
         editorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,5 +69,9 @@ public class MainActivity extends AppCompatActivity {
     public void goToEditorActivity(){
         Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
+    }
+    public void showSetGameTimeDialog(){
+        mDialogs = new Dialogs(MainActivity.this);
+        mDialogs.setTimerDialogBuilder();
     }
 }

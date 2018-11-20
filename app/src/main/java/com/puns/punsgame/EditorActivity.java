@@ -1,10 +1,7 @@
 package com.puns.punsgame;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,14 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ExpandableListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.Buffer;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,12 +32,15 @@ public class EditorActivity extends AppCompatActivity {
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
-    private List<String> listCategory;
-    private HashMap<String, List<String>> listPun;
+    private List<String> listCategory = new ArrayList<>();
+    private HashMap<String, List<String>> listPun = new HashMap<>();
 
     public Uri uri;
     private String path;
     private final int REAL_PATH_REQUEST = 1;
+
+    public ScrollView scrollView;
+    public TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +59,15 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
+        scrollView = findViewById(R.id.editor_scroll);
+        textView = findViewById(R.id.editor_textView);
+
         //get list view
         expListView = findViewById(R.id.exp_list);
         //set category and puns
-        setPunsList();
-        listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
-        expListView.setAdapter(listAdapter);
+        //setPunsList();
+        //listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
+        //expListView.setAdapter(listAdapter);
 
     }
     @Override
@@ -75,7 +83,13 @@ public class EditorActivity extends AppCompatActivity {
                 Toast.makeText(EditorActivity.this, "add pun", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete_pun:
-                Toast.makeText(EditorActivity.this, "delete pun", Toast.LENGTH_SHORT).show();
+                if(listCategory == null){
+                    Toast.makeText(EditorActivity.this, "pusta", Toast.LENGTH_SHORT).show();
+                }else{
+                    for(int i = 0; i<listCategory.size(); i++){
+                        textView.append("Category: " + listCategory.get(i) + "\n");
+                    }
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -92,25 +106,36 @@ public class EditorActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == REAL_PATH_REQUEST){
+                scrollView.setVisibility(View.VISIBLE);
                 uri = data.getData();
                 path = uri.getPath();
-
                 try {
-                    FileReader fileReader = new FileReader(path);
-                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    BufferedReader bufferedReader;
+                    bufferedReader = new BufferedReader(new InputStreamReader(
+                            new FileInputStream(path), Charset.forName("Cp1252")));
                     try {
                         String csvLine;
                         while((csvLine = bufferedReader.readLine()) != null){
-                            String[] column = csvLine.split("|");
+                            String[] column = csvLine.split(";", 2);
                             String category = column[0];
                             String pun = column[1];
+
+                            if(!listCategory.contains(category)){
+                                listCategory.add(category);
+                            }
+                            //textView.append("Category: " + category + " pun: " + pun + "\n");
                         }
+
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Toast.makeText(EditorActivity.this, "File not found" ,
+                                Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    Toast.makeText(EditorActivity.this, "File not found" ,
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 Toast.makeText(EditorActivity.this, "path:" + path,
@@ -148,6 +173,10 @@ public class EditorActivity extends AppCompatActivity {
         listPun.put(listCategory.get(2), child_3);
     }
     private void importExelToSQLite(Context context){
+
+    }
+
+    private void showSetTimerDialog(){
 
     }
 }

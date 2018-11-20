@@ -9,6 +9,7 @@ public class Pun {
     Integer id;
     String category;
     String password;
+    Integer game_time;
 
     Pun(){}
 
@@ -24,6 +25,10 @@ public class Pun {
         this.password = password;
     }
 
+    public void setGameTime(Integer game_time){
+        this.game_time = game_time;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -34,5 +39,9 @@ public class Pun {
 
     public String getPassword() {
         return password;
+    }
+
+    public Integer getGameTime(){
+        return game_time;
     }
 }
