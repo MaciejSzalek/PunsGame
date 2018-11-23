@@ -78,7 +78,6 @@ public class EditorActivity extends AppCompatActivity {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 category = listCategory.get(groupPosition);
                 getPunsFromCategory(category);
-                Toast.makeText(EditorActivity.this, category, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
