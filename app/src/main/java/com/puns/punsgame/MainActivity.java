@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -19,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
     public ImageButton setTimerButton;
     public ImageButton editorButton;
 
+    private Pun pun;
     private Dialogs mDialogs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

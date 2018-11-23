@@ -1,10 +1,8 @@
 package com.puns.punsgame;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
@@ -16,7 +14,6 @@ public class Dialogs extends Activity{
 
     private Context mContext;
     private Pun pun;
-    private Integer punTime;
 
     public Dialogs(Context context){
         this.mContext = context;
@@ -44,6 +41,8 @@ public class Dialogs extends Activity{
     }
 
     public void setTimerDialogBuilder(){
+        final DBHelper dbHelper = new DBHelper(mContext);
+        final String ID = "1";
         final int[] game_time = {0};
         final CharSequence[] time = {"1:00", "2:00", "3:00", "4:00"};
 
@@ -63,22 +62,24 @@ public class Dialogs extends Activity{
                     case 0:
                         pun = new Pun();
                         pun.setGameTime(1);
+                        dbHelper.updateGameTime(ID, pun);
                         break;
                     case 1:
                         pun = new Pun();
                         pun.setGameTime(2);
+                        dbHelper.updateGameTime(ID, pun);
                         break;
                     case 2:
                         pun = new Pun();
                         pun.setGameTime(3);
+                        dbHelper.updateGameTime(ID, pun);
                         break;
                     case 3:
                         pun = new Pun();
                         pun.setGameTime(4);
+                        dbHelper.updateGameTime(ID, pun);
                         break;
                 }
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.game_time)
-                        + " " + Integer.toString(pun.getGameTime()) , Toast.LENGTH_SHORT ).show();
             }
         });
         builder.setSingleChoiceItems(time, 0, new DialogInterface.OnClickListener() {

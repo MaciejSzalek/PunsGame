@@ -6,10 +6,10 @@ package com.puns.punsgame;
 
 public class Pun {
 
-    Integer id;
-    String category;
-    String password;
-    Integer game_time;
+    private Integer id;
+    private String category;
+    private String password;
+    private Integer game_time;
 
     Pun(){}
 

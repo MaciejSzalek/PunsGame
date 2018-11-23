@@ -1,6 +1,5 @@
 package com.puns.punsgame;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -18,29 +17,32 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class EditorActivity extends AppCompatActivity {
 
+    public ScrollView scrollView;
+    public TextView textView;
+
+    private DBHelper dbHelper;
+    public Uri uri;
+
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
     private List<String> listCategory = new ArrayList<>();
+    private List<String> childList = new ArrayList<>();
     private HashMap<String, List<String>> listPun = new HashMap<>();
 
-    public Uri uri;
     private String path;
+    private String category;
+    private String punPassword;
     private final int REAL_PATH_REQUEST = 1;
-
-    public ScrollView scrollView;
-    public TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +63,31 @@ public class EditorActivity extends AppCompatActivity {
 
         scrollView = findViewById(R.id.editor_scroll);
         textView = findViewById(R.id.editor_textView);
-
-        //get list view
         expListView = findViewById(R.id.exp_list);
-        //set category and puns
-        //setPunsList();
-        //listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
-        //expListView.setAdapter(listAdapter);
+
+        dbHelper = new DBHelper(EditorActivity.this);
+        getCategoryFromSql();
+        if(listCategory.size() > 0 ){
+            Collections.sort(listCategory);
+            listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
+            expListView.setAdapter(listAdapter);
+        }
+
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                category = listCategory.get(groupPosition);
+                getPunsFromCategory(category);
+                Toast.makeText(EditorActivity.this, category, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                return false;
+            }
+        });
 
     }
     @Override
@@ -86,8 +106,10 @@ public class EditorActivity extends AppCompatActivity {
                 if(listCategory == null){
                     Toast.makeText(EditorActivity.this, "pusta", Toast.LENGTH_SHORT).show();
                 }else{
-                    for(int i = 0; i<listCategory.size(); i++){
-                        textView.append("Category: " + listCategory.get(i) + "\n");
+                    getPunsFromCategory("Film");
+                    scrollView.setVisibility(View.VISIBLE);
+                    for(int i = 0; i<childList.size(); i++){
+                        textView.append("Child list: " + childList.get(i) + "\n");
                     }
                 }
                 return true;
@@ -106,7 +128,6 @@ public class EditorActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == REAL_PATH_REQUEST){
-                scrollView.setVisibility(View.VISIBLE);
                 uri = data.getData();
                 path = uri.getPath();
                 try {
@@ -117,13 +138,13 @@ public class EditorActivity extends AppCompatActivity {
                         String csvLine;
                         while((csvLine = bufferedReader.readLine()) != null){
                             String[] column = csvLine.split(";", 2);
-                            String category = column[0];
-                            String pun = column[1];
+                            category = column[0];
+                            punPassword = column[1];
 
-                            if(!listCategory.contains(category)){
-                                listCategory.add(category);
-                            }
-                            //textView.append("Category: " + category + " pun: " + pun + "\n");
+                            Pun pun = new Pun();
+                            pun.setCategory(category);
+                            pun.setPassword(punPassword);
+                            dbHelper.addNewPun(pun, pun);
                         }
 
                     } catch (IOException e) {
@@ -137,6 +158,10 @@ public class EditorActivity extends AppCompatActivity {
                     Toast.makeText(EditorActivity.this, "File not found" ,
                             Toast.LENGTH_SHORT).show();
                 }
+                getCategoryFromSql();
+                Collections.sort(listCategory);
+                listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
+                expListView.setAdapter(listAdapter);
 
                 Toast.makeText(EditorActivity.this, "path:" + path,
                         Toast.LENGTH_SHORT).show();
@@ -145,38 +170,23 @@ public class EditorActivity extends AppCompatActivity {
 
         }
     }
-    private void setPunsList(){
-        listCategory = new ArrayList<>();
-        listPun = new HashMap<>();
-
-        listCategory.add("cat 1");
-        listCategory.add("cat 2");
-        listCategory.add("cat 3");
-
-        List<String> child_1 = new ArrayList<>();
-        child_1.add("cat 1: child 1");
-        child_1.add("cat 1: child 2");
-        child_1.add("cat 1: child 3");
-
-        List<String> child_2 = new ArrayList<>();
-        child_2.add("cat 2: child 1");
-        child_2.add("cat 2: child 2");
-        child_2.add("cat 2: child 3");
-
-        List<String> child_3 = new ArrayList<>();
-        child_3.add("cat 3: child 1");
-        child_3.add("cat 3: child 2");
-        child_3.add("cat 3: child 3");
-
-        listPun.put(listCategory.get(0), child_1);
-        listPun.put(listCategory.get(1), child_2);
-        listPun.put(listCategory.get(2), child_3);
+    private void getCategoryFromSql(){
+        List<Pun> punListCategory = dbHelper.getAllCategory();
+        for(Pun pun: punListCategory){
+            category =  pun.getCategory();
+            if(!listCategory.contains(category)){
+                listCategory.add(category);
+            }
+        }
     }
-    private void importExelToSQLite(Context context){
-
-    }
-
-    private void showSetTimerDialog(){
-
+    private void getPunsFromCategory(String category){
+        List<Pun> punsList = dbHelper.getAllPunsFromCategory(category);
+        childList = new ArrayList<>();
+        for(Pun pun: punsList){
+            punPassword = pun.getPassword();
+            childList.add(punPassword);
+        }
+        Collections.sort(childList);
+        listPun.put(category, childList);
     }
 }

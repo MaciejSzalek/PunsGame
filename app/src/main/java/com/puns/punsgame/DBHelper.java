@@ -25,13 +25,15 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_PUNS_CATEGORY = "category";
     private static final String KEY_PUNS_PASSWORD = "password";
+    private static final String KEY_GAME_TIME = "game_time";
 
     //String create table
     private static final String CREATE_PUNS_TABLE =
-            "CREATE TABLE" + TABLE_PUNS + "("
-            + KEY_ID + "INTEGER PRIMARY KEY,"
-            + KEY_PUNS_CATEGORY + "TEXT,"
-            +KEY_PUNS_PASSWORD + "TEXT" + ")";
+            "CREATE TABLE " + TABLE_PUNS + "("
+                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + KEY_PUNS_CATEGORY + " TEXT,"
+                    + KEY_PUNS_PASSWORD + " TEXT,"
+                    + KEY_GAME_TIME + " INTEGER" + ")";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,37 +49,84 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PUNS);
     }
 
-    public void addNewPun(Pun id, Pun category, Pun password){
+    public void addNewPun(Pun category, Pun password){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, id.getId());
         values.put(KEY_PUNS_CATEGORY, category.getCategory());
         values.put(KEY_PUNS_PASSWORD, password.getPassword());
+        values.put(KEY_GAME_TIME, 1);
 
         db.insert(TABLE_PUNS, null, values);
         db.close();
     }
 
-    public int deletePun(String id){
+    public int deletePun(String category,  String password){
         SQLiteDatabase db = getWritableDatabase();
-        String whereClause = KEY_ID + " = ? ";
-        String[] whereArgs = {id};
+        String whereClause = KEY_PUNS_CATEGORY + " = ? and "
+                + KEY_PUNS_PASSWORD + " = ? ";
+        String[] whereArgs = {category, password};
 
         int count = db.delete(TABLE_PUNS, whereClause, whereArgs);
         db.close();
         return count;
     }
-    public void updatePun(String id, Pun category, Pun password){
+    public void updateGameTime(String id, Pun gameTime){
         SQLiteDatabase db = getWritableDatabase();
         String whereClause = KEY_ID + " = ? ";
         String[] whereArgs = {id};
-
         ContentValues values = new ContentValues();
-        values.put(KEY_PUNS_CATEGORY, category.getCategory());
-        values.put(KEY_PUNS_PASSWORD, password.getPassword());
+        values.put(KEY_GAME_TIME, gameTime.getGameTime());
         db.update(TABLE_PUNS, values, whereClause, whereArgs);
         db.close();
+    }
+    public void updatePun(String category, String password, Pun punCategory, Pun punPassword){
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = KEY_PUNS_CATEGORY + " = ? and "
+                + KEY_PUNS_PASSWORD + " = ? ";
+        String[] whereArgs = {category, password};
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PUNS_CATEGORY, punCategory.getCategory());
+        values.put(KEY_PUNS_PASSWORD, punPassword.getPassword());
+        db.update(TABLE_PUNS, values, whereClause, whereArgs);
+        db.close();
+    }
+    public Pun getGameTimeSql(String id){
+        Pun pun = new Pun();
+        SQLiteDatabase db = getReadableDatabase();
+        String selectQuery = " SELECT * FROM " + TABLE_PUNS + " WHERE "
+                + KEY_ID + "='" + id + "'";
+
+        @SuppressLint("Recycle")
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                pun = new Pun();
+                pun.setGameTime(cursor.getInt(3));
+            }while (cursor.moveToNext());
+        }
+        return pun;
+    }
+    public List<Pun> getAllSqlData(){
+        List<Pun> punList = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_PUNS;
+
+        @SuppressLint("Recycle")
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                Pun pun = new Pun();
+                pun.setId(cursor.getInt(0));
+                pun.setCategory(cursor.getString(1));
+                pun.setPassword(cursor.getString(2));
+                pun.setGameTime(cursor.getInt(3));
+
+                punList.add(pun);
+            }while (cursor.moveToNext());
+        }
+        return punList;
     }
 
     public List<Pun> getAllCategory(){
@@ -92,10 +141,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                Pun category = new Pun();
-                category.setCategory(cursor.getString(0));
-                if(!punCategoryList.equals(category)){
-                    punCategoryList.add(category);
+                Pun pun = new Pun();
+                pun.setCategory(cursor.getString(1));
+                if(!punCategoryList.equals(pun)){
+                    punCategoryList.add(pun);
                 }
 
             }while ((cursor.moveToNext()));
@@ -103,7 +152,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return punCategoryList;
     }
 
-    public List<Pun> getAllPunsFromCategoty(String category){
+    public List<Pun> getAllPunsFromCategory(String category){
 
         List<Pun> punsList = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
