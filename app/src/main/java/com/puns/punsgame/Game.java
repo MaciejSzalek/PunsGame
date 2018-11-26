@@ -1,17 +1,18 @@
 package com.puns.punsgame;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
@@ -24,7 +25,12 @@ public class Game extends AppCompatActivity {
     private Dialogs mDialogs;
     private Pun pun;
 
+    private List<Integer> idList = new ArrayList<>();
+    private List<Integer> idUsedList = new ArrayList<>();
+
     private static final Integer ID = 1;
+    private String category;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,7 @@ public class Game extends AppCompatActivity {
         startButton = findViewById(R.id.start_button);
 
         dbHelper = new DBHelper(Game.this);
+        getIdListSQL();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.text_color));
@@ -50,6 +57,24 @@ public class Game extends AppCompatActivity {
                 createFinishGameAlertBuilder();
             }
         });
+
+        randomButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                Integer id = getRandomId();
+                if(!idUsedList.contains(id)){
+                    getPuns(id);
+                    categoryTextView.setText(getResources().getString(R.string.category)
+                            + "\n" + category + "\n");
+                    passwordTextView.setText(getResources().getString(R.string.password)
+                            + "\n" + password);
+                    idUsedList.add(id);
+                }else{
+                    getRandomId();
+                }
+            }
+        });
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +84,24 @@ public class Game extends AppCompatActivity {
             }
         });
 
+    }
+    private void getPuns(Integer id){
+        Pun pun = dbHelper.getPunsDataSql(Integer.toString(id));
+        category = pun.getCategory();
+        password = pun.getPassword();
+    }
+    private Integer getRandomId(){
+        Random random = new Random();
+        int listSize = idList.size();
+        int randomIndex = random.nextInt(listSize);
+        return idList.get(randomIndex);
+    }
+    private void getIdListSQL(){
+        List<Pun> punList = dbHelper.getAllSqlData();
+        for(Pun pun: punList){
+            Integer idInt = pun.getId();
+            idList.add(idInt);
+        }
     }
     private void createFinishGameAlertBuilder(){
         mDialogs = new Dialogs(Game.this);

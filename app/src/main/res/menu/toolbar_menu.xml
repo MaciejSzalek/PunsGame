@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:id="@+id/add_pun"
         android:orderInCategory="100"
         android:icon="@drawable/plus_ic"
@@ -11,9 +11,17 @@
     </item>
 
     <item
-        app:showAsAction="ifRoom"
-        android:id="@+id/delete_pun"
+        app:showAsAction="always"
+        android:id="@+id/add_list"
         android:orderInCategory="200"
+        android:icon="@drawable/add_list"
+        android:title="add_list">
+    </item>
+
+    <item
+        app:showAsAction="always"
+        android:id="@+id/delete_pun"
+        android:orderInCategory="300"
         android:icon="@drawable/trash_bin_ic"
         android:title="delete_pun">
     </item>

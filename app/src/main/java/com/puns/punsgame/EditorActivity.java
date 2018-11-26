@@ -98,8 +98,10 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.add_pun:
+
+                return true;
+            case R.id.add_list:
                 getExcelFilePath();
-                Toast.makeText(EditorActivity.this, "add pun", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete_pun:
                 if(listCategory == null){

@@ -92,6 +92,25 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(TABLE_PUNS, values, whereClause, whereArgs);
         db.close();
     }
+
+    public Pun getPunsDataSql(String id){
+        Pun pun  = new Pun();
+        SQLiteDatabase db = getReadableDatabase();
+        String selectQuery = " SELECT * FROM " + TABLE_PUNS + " WHERE "
+                + KEY_ID + "='" + id + "'";
+
+        @SuppressLint("Recycle")
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if(cursor.moveToFirst()){
+            do{
+                pun = new Pun();
+                pun.setCategory(cursor.getString(1));
+                pun.setPassword(cursor.getString(2));
+            }while(cursor.moveToNext());
+        }
+        return pun;
+    }
+
     public Pun getGameTimeSql(String id){
         Pun pun = new Pun();
         SQLiteDatabase db = getReadableDatabase();

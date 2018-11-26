@@ -7,7 +7,7 @@
     <string name="game">GRA</string>
     <string name="random">LOSUJ</string>
     <string name="password">Hasło:</string>
-    <string name="category">Kategoria :</string>
+    <string name="category">Kategoria:</string>
     <string name="finish_game_dialog_title">Zakończ grę !!!</string>
     <string name="finish_game_dialog_message">Czy na prawdę chcesz zakończyć grę ?</string>
     <string name="finish_game_cancel_button">Anuluj</string>
