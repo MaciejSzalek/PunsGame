@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showSetGameTimeDialog();
-                pun = new Pun();
-                Toast.makeText(MainActivity.this, getResources().getString(R.string.game_time)
-                        + " " + Integer.toString(pun.getGameTime()) , Toast.LENGTH_SHORT ).show();
             }
         });
         editorButton.setOnClickListener(new View.OnClickListener() {

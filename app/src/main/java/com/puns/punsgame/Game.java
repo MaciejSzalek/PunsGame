@@ -1,6 +1,8 @@
 package com.puns.punsgame;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.provider.AlarmClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,7 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,6 @@ public class Game extends AppCompatActivity {
 
     private DBHelper dbHelper;
     private Dialogs mDialogs;
-    private Pun pun;
 
     private List<Integer> idList = new ArrayList<>();
     private List<Integer> idUsedList = new ArrayList<>();
@@ -78,12 +78,22 @@ public class Game extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pun = dbHelper.getGameTimeSql(Integer.toString(ID));
-                Toast.makeText(Game.this, getResources().getString(R.string.game_time)
-                        + " " + Integer.toString(pun.getGameTime()) , Toast.LENGTH_SHORT ).show();
+               goToTimerActivity();
             }
         });
 
+    }
+    private void goToTimerActivity(){
+        Intent intent = new Intent(Game.this, Timer.class);
+        startActivity(intent);
+    }
+    private void startTimer(){
+        Pun pun = dbHelper.getGameTimeSql(Integer.toString(ID));
+        Integer time = (pun.getGameTime() * 60);
+        Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+                .putExtra(AlarmClock.EXTRA_LENGTH, time)
+                .putExtra(AlarmClock.EXTRA_SKIP_UI, false);
+        startActivity(intent);
     }
     private void getPuns(Integer id){
         Pun pun = dbHelper.getPunsDataSql(Integer.toString(id));
