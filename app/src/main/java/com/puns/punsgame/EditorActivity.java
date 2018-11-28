@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,6 +125,8 @@ public class EditorActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, REAL_PATH_REQUEST);
     }
+
+    // Cp1250 - Windows Eastern European (Polish characters encoding)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -134,7 +137,7 @@ public class EditorActivity extends AppCompatActivity {
                 try {
                     BufferedReader bufferedReader;
                     bufferedReader = new BufferedReader(new InputStreamReader(
-                            new FileInputStream(path), Charset.forName("Cp1252")));
+                            new FileInputStream(path), Charset.forName("Cp1250")));
                     try {
                         String csvLine;
                         while((csvLine = bufferedReader.readLine()) != null){

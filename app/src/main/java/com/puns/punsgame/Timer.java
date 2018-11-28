@@ -48,6 +48,7 @@ public class Timer extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                timerTextView.setText("00:00");
                 playAlarm();
                 finish();
             }

@@ -87,14 +87,6 @@ public class Game extends AppCompatActivity {
         Intent intent = new Intent(Game.this, Timer.class);
         startActivity(intent);
     }
-    private void startTimer(){
-        Pun pun = dbHelper.getGameTimeSql(Integer.toString(ID));
-        Integer time = (pun.getGameTime() * 60);
-        Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-                .putExtra(AlarmClock.EXTRA_LENGTH, time)
-                .putExtra(AlarmClock.EXTRA_SKIP_UI, false);
-        startActivity(intent);
-    }
     private void getPuns(Integer id){
         Pun pun = dbHelper.getPunsDataSql(Integer.toString(id));
         category = pun.getCategory();
