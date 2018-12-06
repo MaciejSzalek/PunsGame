@@ -9,9 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -19,7 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,14 +27,13 @@ import java.util.List;
 
 public class EditorActivity extends AppCompatActivity {
 
-    public ScrollView scrollView;
-    public TextView textView;
-
     private DBHelper dbHelper;
+    private Dialogs dialogs;
     public Uri uri;
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
+
     private List<String> listCategory = new ArrayList<>();
     private List<String> childList = new ArrayList<>();
     private HashMap<String, List<String>> listPun = new HashMap<>();
@@ -62,8 +60,6 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
-        scrollView = findViewById(R.id.editor_scroll);
-        textView = findViewById(R.id.editor_textView);
         expListView = findViewById(R.id.exp_list);
 
         dbHelper = new DBHelper(EditorActivity.this);
@@ -85,6 +81,25 @@ public class EditorActivity extends AppCompatActivity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                String par = listCategory.get(groupPosition);
+                String ch = childList.get(childPosition);
+                //Toast.makeText(EditorActivity.this, "Parent: " + par +"\n Child: " + ch, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        expListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD){
+                    int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+                    int childPosition = ExpandableListView.getPackedPositionChild(id);
+
+                    category = listCategory.get(groupPosition);
+                    punPassword = childList.get(childPosition);
+                    showEditDeleteDialog();
+                    return true;
+                }
                 return false;
             }
         });
@@ -99,21 +114,13 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.add_pun:
-
+                goToNewPunActivity();
                 return true;
             case R.id.add_list:
                 getExcelFilePath();
                 return true;
             case R.id.delete_pun:
-                if(listCategory == null){
-                    Toast.makeText(EditorActivity.this, "pusta", Toast.LENGTH_SHORT).show();
-                }else{
-                    getPunsFromCategory("Film");
-                    scrollView.setVisibility(View.VISIBLE);
-                    for(int i = 0; i<childList.size(); i++){
-                        textView.append("Child list: " + childList.get(i) + "\n");
-                    }
-                }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -192,5 +199,28 @@ public class EditorActivity extends AppCompatActivity {
         }
         Collections.sort(childList);
         listPun.put(category, childList);
+    }
+    private void goToNewPunActivity(){
+        Intent intent = new Intent(EditorActivity.this, NewPunActivity.class);
+        startActivity(intent);
+    }
+    private void showEditDeleteDialog(){
+        dialogs = new Dialogs(EditorActivity.this);
+        dialogs.editPunDialogBuilder(category, punPassword);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(listCategory.size() > 0){
+            listCategory.clear();
+            listPun.clear();
+        }
+        getCategoryFromSql();
+        if(listCategory.size() > 0 ){
+            Collections.sort(listCategory);
+            listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
+            expListView.setAdapter(listAdapter);
+        }
     }
 }

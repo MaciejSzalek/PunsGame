@@ -3,8 +3,8 @@ package com.puns.punsgame;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
 /**
  * Created by Maciej Szalek on 2018-05-13.
@@ -17,6 +17,36 @@ public class Dialogs extends Activity{
 
     public Dialogs(Context context){
         this.mContext = context;
+    }
+
+    public void editPunDialogBuilder(String punCategory, String punPassword){
+        final AlertDialog.Builder dialogEdit = new AlertDialog.Builder(mContext);
+        dialogEdit.setTitle(R.string.edit_delete);
+        dialogEdit.setMessage(R.string.category + punCategory + "\n"
+                + R.string.password + punPassword);
+        dialogEdit.setCancelable(true);
+
+        dialogEdit.setNeutralButton(R.string.finish_game_cancel_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialogEdit.setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        dialogEdit.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(mContext, NewPunActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = dialogEdit.create();
+        dialog.show();
     }
 
     public void finishGameDialogBuilder(){

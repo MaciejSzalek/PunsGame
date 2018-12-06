@@ -5,8 +5,8 @@
     <string name="puns_game">Puns Game</string>
     <string name="game">GAME</string>
     <string name="random">RANDOM</string>
-    <string name="password">password:</string>
-    <string name="category">category :</string>
+    <string name="password">Password: </string>
+    <string name="category">Category: </string>
     <string name="finish_game_dialog_title">Finish Game !!!</string>
     <string name="finish_game_dialog_message">Do you really want to finish the game ?</string>
     <string name="finish_game_cancel_button">Cancel</string>
@@ -14,4 +14,9 @@
     <string name="editor">EDITOR</string>
     <string name="set_timer_in_minutes">Set timer in minutes</string>
     <string name="game_time">Game time:</string>
+    <string name="confirm">confirm</string>
+    <string name="new_pun_text">pun text</string>
+    <string name="edit_delete">Edit/Delete</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

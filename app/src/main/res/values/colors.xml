@@ -7,4 +7,6 @@
     <color name="transparent">#00ffffff</color>
     <color name="button_text_color">#000</color>
     <color name="pun_list_background">#a3a3a3</color>
+    <color name="pun_list_selected_background">#767474</color>
+    <color name="list_selector">#cb091763</color>
 </resources>

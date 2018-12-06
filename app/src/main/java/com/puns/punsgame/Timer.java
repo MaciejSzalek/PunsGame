@@ -48,7 +48,6 @@ public class Timer extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                timerTextView.setText("00:00");
                 playAlarm();
                 finish();
             }
@@ -56,7 +55,7 @@ public class Timer extends AppCompatActivity {
 
     }
     private void playAlarm(){
-        Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         Ringtone ringtone = RingtoneManager.getRingtone(Timer.this, alarm);
         ringtone.play();
     }

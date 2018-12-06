@@ -28,7 +28,8 @@
         <activity android:name=".EditorActivity" />
         <activity
             android:name=".Timer"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".NewPunActivity"></activity>
     </application>
 
 </manifest>

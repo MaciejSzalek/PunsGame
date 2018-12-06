@@ -6,8 +6,8 @@
     <string name="puns_game">Kalambury</string>
     <string name="game">GRA</string>
     <string name="random">LOSUJ</string>
-    <string name="password">Hasło:</string>
-    <string name="category">Kategoria:</string>
+    <string name="password">Hasło: </string>
+    <string name="category">Kategoria: </string>
     <string name="finish_game_dialog_title">Zakończ grę !!!</string>
     <string name="finish_game_dialog_message">Czy na prawdę chcesz zakończyć grę ?</string>
     <string name="finish_game_cancel_button">Anuluj</string>
@@ -15,4 +15,9 @@
     <string name="editor">EDYTOR</string>
     <string name="set_timer_in_minutes">Ustaw czas w minutach</string>
     <string name="game_time">Czas gry:</string>
+    <string name="confirm">confirm</string>
+    <string name="new_pun_text">treść</string>
+    <string name="edit_delete">Edytuj/Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="delete">Usuń</string>
 </resources>

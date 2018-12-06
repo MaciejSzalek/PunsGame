@@ -28,7 +28,6 @@ public class Game extends AppCompatActivity {
     private List<Integer> idList = new ArrayList<>();
     private List<Integer> idUsedList = new ArrayList<>();
 
-    private static final Integer ID = 1;
     private String category;
     private String password;
 
