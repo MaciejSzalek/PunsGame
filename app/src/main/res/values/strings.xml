@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Puns Game</string>
     <string name="start">START</string>
@@ -19,4 +20,6 @@
     <string name="edit_delete">Edit/Delete</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="remove_all">Remove all</string>
+    <string name="remove_all_message">Do you really want to remove all data ?</string>
 </resources>

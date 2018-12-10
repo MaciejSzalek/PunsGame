@@ -60,6 +60,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_PUNS, null, values);
         db.close();
     }
+    public int deleteAllData(){
+        SQLiteDatabase db = getWritableDatabase();
+        int count = db.delete(TABLE_PUNS,null, null);
+        db.close();
+        return count;
+    }
 
     public int deletePun(String category,  String password){
         SQLiteDatabase db = getWritableDatabase();

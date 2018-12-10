@@ -20,4 +20,6 @@
     <string name="edit_delete">Edytuj/Usuń</string>
     <string name="edit">Edytuj</string>
     <string name="delete">Usuń</string>
+    <string name="remove_all">Usuń wszystkie</string>
+    <string name="remove_all_message">Czy na pewno chcesz usunąć wszystkie dane ?</string>
 </resources>

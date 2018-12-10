@@ -81,9 +81,9 @@ public class EditorActivity extends AppCompatActivity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String par = listCategory.get(groupPosition);
-                String ch = childList.get(childPosition);
-                //Toast.makeText(EditorActivity.this, "Parent: " + par +"\n Child: " + ch, Toast.LENGTH_SHORT).show();
+                category = listCategory.get(groupPosition);
+                punPassword = childList.get(childPosition);
+                Toast.makeText(EditorActivity.this, category +"\n" + punPassword, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -120,7 +120,7 @@ public class EditorActivity extends AppCompatActivity {
                 getExcelFilePath();
                 return true;
             case R.id.delete_pun:
-
+                showDeleteAllDataDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -202,16 +202,11 @@ public class EditorActivity extends AppCompatActivity {
     }
     private void goToNewPunActivity(){
         Intent intent = new Intent(EditorActivity.this, NewPunActivity.class);
+        intent.putExtra("INTENT_CHECK", "NEW");
         startActivity(intent);
     }
-    private void showEditDeleteDialog(){
-        dialogs = new Dialogs(EditorActivity.this);
-        dialogs.editPunDialogBuilder(category, punPassword);
-    }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
+    private void updateExpandableListView(){
         if(listCategory.size() > 0){
             listCategory.clear();
             listPun.clear();
@@ -222,5 +217,20 @@ public class EditorActivity extends AppCompatActivity {
             listAdapter = new ExpandableListAdapter(this, listCategory, listPun);
             expListView.setAdapter(listAdapter);
         }
+    }
+    private void showEditDeleteDialog(){
+        dialogs = new Dialogs(EditorActivity.this);
+        dialogs.editPunDialogBuilder(category, punPassword, expListView, listCategory,
+                listPun);
+    }
+    private void showDeleteAllDataDialog(){
+        dialogs = new Dialogs(EditorActivity.this);
+        dialogs.deleteAllDataDialogBuilder(expListView, listCategory, listPun);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        updateExpandableListView();
     }
 }
