@@ -16,8 +16,8 @@ Issues developed in project:
 
 
 
-Comments: 
-You can create your own puns.
+Comments: You can create your own puns.
+
 CSV file structure: 
 - first column: category, 
 - second column: pun password. 
