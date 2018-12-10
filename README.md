@@ -19,7 +19,5 @@ Comments:
 You can create your own puns.
 
 CSV file structure: 
-
-- first column category, 
-
-- second pun password. 
+- first column: category, 
+- second column: pun password. 
