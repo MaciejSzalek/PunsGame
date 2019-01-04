@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.widget.ExpandableListView;
 
@@ -17,7 +19,6 @@ import java.util.List;
 public class Dialogs extends Activity{
 
     private Context mContext;
-    private Pun pun;
     private DBHelper dbHelper;
     private ExpandableListAdapter expandableListAdapter;
 
@@ -113,8 +114,12 @@ public class Dialogs extends Activity{
     }
 
     public void setTimerDialogBuilder(){
-        final DBHelper dbHelper = new DBHelper(mContext);
-        final String ID = "1";
+
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(mContext);
+        final SharedPreferences.Editor sharedEditor = sharedPreferences.edit();
+
+        final int position = (sharedPreferences.getInt("TIMER", 1)) - 1;
         final int[] game_time = {0};
         final CharSequence[] time = {"1:00", "2:00", "3:00", "4:00"};
 
@@ -132,29 +137,25 @@ public class Dialogs extends Activity{
             public void onClick(DialogInterface dialog, int which) {
                 switch(game_time[0]){
                     case 0:
-                        pun = new Pun();
-                        pun.setGameTime(1);
-                        dbHelper.updateGameTime(ID, pun);
+                        sharedEditor.putInt("TIMER", 1);
+                        sharedEditor.commit();
                         break;
                     case 1:
-                        pun = new Pun();
-                        pun.setGameTime(2);
-                        dbHelper.updateGameTime(ID, pun);
+                        sharedEditor.putInt("TIMER", 2);
+                        sharedEditor.commit();
                         break;
                     case 2:
-                        pun = new Pun();
-                        pun.setGameTime(3);
-                        dbHelper.updateGameTime(ID, pun);
+                        sharedEditor.putInt("TIMER", 3);
+                        sharedEditor.commit();
                         break;
                     case 3:
-                        pun = new Pun();
-                        pun.setGameTime(4);
-                        dbHelper.updateGameTime(ID, pun);
+                        sharedEditor.putInt("TIMER", 4);
+                        sharedEditor.commit();
                         break;
                 }
             }
         });
-        builder.setSingleChoiceItems(time, 0, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(time, position, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 game_time[0] = item;

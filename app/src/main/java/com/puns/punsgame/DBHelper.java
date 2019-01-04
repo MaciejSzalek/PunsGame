@@ -25,15 +25,13 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_PUNS_CATEGORY = "category";
     private static final String KEY_PUNS_PASSWORD = "password";
-    private static final String KEY_GAME_TIME = "game_time";
 
     //String create table
     private static final String CREATE_PUNS_TABLE =
             "CREATE TABLE " + TABLE_PUNS + "("
                     + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + KEY_PUNS_CATEGORY + " TEXT,"
-                    + KEY_PUNS_PASSWORD + " TEXT,"
-                    + KEY_GAME_TIME + " INTEGER" + ")";
+                    + KEY_PUNS_PASSWORD + " TEXT" + ")";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,7 +53,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_PUNS_CATEGORY, category.getCategory());
         values.put(KEY_PUNS_PASSWORD, password.getPassword());
-        values.put(KEY_GAME_TIME, 1);
 
         db.insert(TABLE_PUNS, null, values);
         db.close();
@@ -77,15 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return count;
     }
-    public void updateGameTime(String id, Pun gameTime){
-        SQLiteDatabase db = getWritableDatabase();
-        String whereClause = KEY_ID + " = ? ";
-        String[] whereArgs = {id};
-        ContentValues values = new ContentValues();
-        values.put(KEY_GAME_TIME, gameTime.getGameTime());
-        db.update(TABLE_PUNS, values, whereClause, whereArgs);
-        db.close();
-    }
+
     public void updatePun(String category, String password, Pun punCategory, Pun punPassword){
         SQLiteDatabase db = getWritableDatabase();
         String whereClause = KEY_PUNS_CATEGORY + " = ? and "
@@ -117,22 +106,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return pun;
     }
 
-    public Pun getGameTimeSql(String id){
-        Pun pun = new Pun();
-        SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = " SELECT * FROM " + TABLE_PUNS + " WHERE "
-                + KEY_ID + "='" + id + "'";
-
-        @SuppressLint("Recycle")
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if(cursor.moveToFirst()){
-            do{
-                pun = new Pun();
-                pun.setGameTime(cursor.getInt(3));
-            }while (cursor.moveToNext());
-        }
-        return pun;
-    }
     public List<Pun> getAllSqlData(){
         List<Pun> punList = new ArrayList<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -146,7 +119,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 pun.setId(cursor.getInt(0));
                 pun.setCategory(cursor.getString(1));
                 pun.setPassword(cursor.getString(2));
-                pun.setGameTime(cursor.getInt(3));
 
                 punList.add(pun);
             }while (cursor.moveToNext());

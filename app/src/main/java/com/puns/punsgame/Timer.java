@@ -1,9 +1,11 @@
 package com.puns.punsgame;
 
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -15,11 +17,10 @@ public class Timer extends AppCompatActivity {
 
     private TextView timerTextView;
 
+    private SharedPreferences sharedPreferences;
     public CountDownTimer countDownTimer;
-    public DBHelper dbHelper;
     public Pun pun;
     public Integer time;
-    private static final String ID = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,10 @@ public class Timer extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         timerTextView = findViewById(R.id.timer_text_view);
-
-        dbHelper = new DBHelper(Timer.this);
-        pun = dbHelper.getGameTimeSql(ID);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        pun = new Pun();
+        pun.setGameTime(sharedPreferences.getInt("TIMER", 1));
         time = pun.getGameTime() * 60000;
-
         countDownTimer = new CountDownTimer(time, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
