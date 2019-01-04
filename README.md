@@ -12,4 +12,12 @@ Issues developed in project:
 
 - SQLite data base (add, delete, update, get data)
 
-- How to import data from external storage .xlsx file to SQLite
+- How to import CSV file from external storage to SQLite
+
+
+
+Comments: You can create your own puns.
+
+CSV file structure: 
+- first column: category, 
+- second column: pun password. 
