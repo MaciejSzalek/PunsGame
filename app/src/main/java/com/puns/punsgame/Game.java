@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,9 @@ public class Game extends AppCompatActivity {
         startButton = findViewById(R.id.start_button);
 
         dbHelper = new DBHelper(Game.this);
+        if(idList.size() > 0){
+            idList.clear();
+        }
         getIdListSQL();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -61,23 +65,32 @@ public class Game extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                Integer id = getRandomId();
-                if(!idUsedList.contains(id)){
-                    getPuns(id);
-                    categoryTextView.setText(getResources().getString(R.string.category)
-                            + "\n" + category + "\n");
-                    passwordTextView.setText(getResources().getString(R.string.password)
-                            + "\n" + password);
-                    idUsedList.add(id);
+                if(idList.size() == 0){
+                    Toast.makeText(Game.this, "Puns list is empty", Toast.LENGTH_SHORT).show();
                 }else{
-                    getRandomId();
+                    Integer id = getRandomId();
+                    if(idUsedList.contains(id)){
+                        Toast.makeText(Game.this, "Finish", Toast.LENGTH_SHORT).show();
+                        getRandomId();
+                    }else{
+                        getPuns(id);
+                        categoryTextView.setText(getResources().getString(R.string.category)
+                                + "\n" + category + "\n");
+                        passwordTextView.setText(getResources().getString(R.string.password)
+                                + "\n" + password);
+                        idUsedList.add(id);
+                    }
                 }
             }
         });
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               goToTimerActivity();
+                if(idList.size() == 0){
+                    Toast.makeText(Game.this, "Puns list is empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    goToTimerActivity();
+                }
             }
         });
 
@@ -112,5 +125,12 @@ public class Game extends AppCompatActivity {
     public void onBackPressed(){
         createFinishGameAlertBuilder();
     }
-
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(idList.size() > 0){
+            idList.clear();
+        }
+        getIdListSQL();
+    }
 }
